@@ -54,11 +54,11 @@ export class TabOneComponent {
     // Create a new DataItem with default values
     const newRow: DataItem = {
       id: this.newRowIdCounter++, // Assign a unique ID
-      name: 'New Item',
-      category: 'Uncategorized',
+      name: '',
+      category: '',
       value: 0,
-      description: 'Enter description here...',
-      status: 'Pending'
+      description: '',
+      status: ''
     };
 
     // Add the new row to the grid

@@ -53,11 +53,11 @@ export class TabTwoComponent {
 
     const newRow: DataItem = {
       id: this.newRowIdCounter++,
-      name: 'New Item',
-      category: 'Uncategorized',
+      name: '',
+      category: '',
       value: 0,
-      description: 'Enter description here...',
-      status: 'Pending'
+      description: '',
+      status: ''
     };
 
     this.gridApi.applyTransaction({
