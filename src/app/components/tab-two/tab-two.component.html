@@ -1,3 +1,8 @@
+<div class="grid-actions">
+  <button mat-raised-button color="primary" (click)="addNewRow()">
+    <mat-icon>add</mat-icon> Add New Row
+  </button>
+</div>
 <div class="grid-container">
     <ag-grid-angular class="ag-theme-material" [rowData]="data" [columnDefs]="columnDefs"
         [defaultColDef]="defaultColDef" [suppressCsvExport]="true" [enableRangeSelection]="true" [pagination]="true"

@@ -1,100 +1,48 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { delay, map } from 'rxjs/operators';
 
 export interface DataItem {
-  id: number;
+  id: number | undefined;
   name: string;
-  category: string;
   value: number;
-  description: string;
   status: string;
+  category: string;
+  description: string;
+  isNewRow?: boolean;
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class DataService {
-  private mockData: DataItem[] = [
-    {
-      id: 1,
-      name: 'Product A',
-      category: 'Electronics',
-      value: 120,
-      description: 'High-quality electronic device.',
-      status: 'Active',
-    },
-    {
-      id: 2,
-      name: 'Service B',
-      category: 'Software',
-      value: 50,
-      description: 'Monthly subscription for software.',
-      status: 'Inactive',
-    },
-    {
-      id: 3,
-      name: 'Item C',
-      category: 'Hardware',
-      value: 300,
-      description: 'Essential hardware component.',
-      status: 'Active',
-    },
-    {
-      id: 4,
-      name: 'Product D',
-      category: 'Electronics',
-      value: 80,
-      description: 'Portable electronic gadget.',
-      status: 'Pending',
-    },
-    {
-      id: 5,
-      name: 'Service E',
-      category: 'Consulting',
-      value: 250,
-      description: 'Professional consulting service.',
-      status: 'Active',
-    },
-    {
-      id: 6,
-      name: 'Item F',
-      category: 'Software',
-      value: 150,
-      description: 'Software license for enterprise.',
-      status: 'Active',
-    },
-    {
-      id: 7,
-      name: 'Product G',
-      category: 'Hardware',
-      value: 90,
-      description: 'Small hardware accessory.',
-      status: 'Inactive',
-    },
-    {
-      id: 8,
-      name: 'Service H',
-      category: 'Support',
-      value: 75,
-      description: '24/7 technical support.',
-      status: 'Active',
-    },
+  private readonly mockData: DataItem[] = [
+    { id: 1, name: 'Item A', value: 100, status: 'Active', category: 'Electronics', description: 'Description for Item A' },
+    { id: 2, name: 'Item B', value: 150, status: 'Inactive', category: 'Books', description: 'Description for Item B' },
+    { id: 3, name: 'Item C', value: 200, status: 'Active', category: 'Home Goods', description: 'Description for Item C' },
+    { id: 4, name: 'Item D', value: 75, status: 'Pending', category: 'Electronics', description: 'Description for Item D' },
+    { id: 5, name: 'Item E', value: 300, status: 'Active', category: 'Books', description: 'Description for Item E' },
+    { id: 6, name: 'Item F', value: 120, status: 'Active', category: 'Home Goods', description: 'Description for Item F' },
+    { id: 7, name: 'Item G', value: 90, status: 'Inactive', category: 'Sports', description: 'Description for Item G' },
+    { id: 8, name: 'Item H', value: 250, status: 'Active', category: 'Electronics', description: 'Description for Item H' },
+    { id: 9, name: 'Item I', value: 180, status: 'Active', category: 'Sports', description: 'Description for Item I' },
+    { id: 10, name: 'Item J', value: 50, status: 'Pending', category: 'Books', description: 'Description for Item J' }
   ];
 
-  constructor() {}
-
-  searchData(query: string): Observable<DataItem[]> {
-    const filteredData = this.mockData.filter(
-      (item) =>
-        item.name.toLowerCase().includes(query.toLowerCase()) ||
-        item.category.toLowerCase().includes(query.toLowerCase()) ||
-        item.description.toLowerCase().includes(query.toLowerCase())
-    );
-    return of(filteredData).pipe(delay(300));
-  }
+  constructor() { }
 
   getAllData(): Observable<DataItem[]> {
-    return of(this.mockData).pipe(delay(300));
+    return of(this.mockData.map(item => ({ ...item, isNewRow: false }))).pipe(delay(500)); // Mark existing as not new
+  }
+
+  searchData(searchTerm: string): Observable<DataItem[]> {
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+    return of(this.mockData.filter(item =>
+      item.name.toLowerCase().includes(lowerCaseSearchTerm) ||
+      item.description.toLowerCase().includes(lowerCaseSearchTerm) ||
+      item.category.toLowerCase().includes(lowerCaseSearchTerm) ||
+      item.status.toLowerCase().includes(lowerCaseSearchTerm)
+    ).map(item => ({ ...item, isNewRow: false }))).pipe(delay(300)); // Mark existing as not new
   }
 }
