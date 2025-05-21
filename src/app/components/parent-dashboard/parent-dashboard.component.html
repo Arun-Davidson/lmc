@@ -9,34 +9,37 @@
       <div class="bound-data-container">
         <div class="data-column">
           <div class="data-item">
-            <strong>Total Items:</strong> {{ !!boundData&& !!boundData[0] &&  !!boundData[0].value ?  boundData[0].value : 'N/A' }}
+            <strong>Total Items:</strong> {{ !!boundData&& !!boundData[0] && !!boundData[0].value ? boundData[0].value :
+            'N/A' }}
           </div>
           <div class="data-item">
-            <strong>Active Status:</strong> {{ !!boundData&& !!boundData[1] &&  !!boundData[1].value ?  boundData[1].value : 'N/A' }}
+            <strong>Active Status:</strong> {{ !!boundData&& !!boundData[1] && !!boundData[1].value ? boundData[1].value
+            : 'N/A' }}
           </div>
         </div>
         <div class="data-column">
           <div class="data-item">
-            <strong>Category:</strong> {{ !!boundData&& !!boundData[2] &&  !!boundData[2].value ?  boundData[2].value : 'N/A' }}
+            <strong>Category:</strong> {{ !!boundData&& !!boundData[2] && !!boundData[2].value ? boundData[2].value :
+            'N/A' }}
           </div>
           <div class="data-item">
-            <strong>Description:</strong> {{ !!boundData&& !!boundData[3] &&  !!boundData[3].value ?  boundData[3].value : 'N/A' }}
+            <strong>Description:</strong> {{ !!boundData&& !!boundData[3] && !!boundData[3].value ? boundData[3].value :
+            'N/A' }}
           </div>
         </div>
       </div>
 
-      <app-tab-section
-        [filteredData]="displayedData"
-        (activeTabGridApi)="onActiveTabGridApiReady($event)"
-      ></app-tab-section>
+      <mat-card-actions>
+        <button mat-raised-button color="accent" (click)="exportAllData()">
+          <mat-icon>download</mat-icon> Export All Data
+        </button>
+        <button mat-raised-button color="accent" (click)="exportCurrentTab()">
+          <mat-icon>download</mat-icon> Export Current Tab
+        </button>
+      </mat-card-actions>
+
+      <app-tab-section [filteredData]="displayedData"
+        (activeTabGridApi)="onActiveTabGridApiReady($event)"></app-tab-section>
     </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="accent" (click)="exportAllData()">
-        <mat-icon>download</mat-icon> Export All Data
-      </button>
-      <button mat-raised-button color="accent" (click)="exportCurrentTab()">
-        <mat-icon>download</mat-icon> Export Current Tab
-      </button>
-    </mat-card-actions>
   </mat-card>
 </div>

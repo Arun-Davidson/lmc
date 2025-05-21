@@ -18,6 +18,8 @@ export class TabOneComponent {
   public columnDefs: ColDef[] = commonColumnDefs;
   public defaultColDef: ColDef = commonDefaultColDef;
 
+  public defaultPageSize: number = 10;
+
   private gridApi: GridApi | null = null;
 
   onGridReady(params: GridReadyEvent): void {

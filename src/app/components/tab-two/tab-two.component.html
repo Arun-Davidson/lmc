@@ -1,5 +1,5 @@
 <div class="grid-container">
     <ag-grid-angular class="ag-theme-material" [rowData]="data" [columnDefs]="columnDefs"
-        [defaultColDef]="defaultColDef" [suppressCsvExport]="true" [enableRangeSelection]="true"
-        (gridReady)="onGridReady($event)" style="height: 500px;"></ag-grid-angular>
+        [defaultColDef]="defaultColDef" [suppressCsvExport]="true" [enableRangeSelection]="true" [pagination]="true"
+        [paginationPageSize]="defaultPageSize" (gridReady)="onGridReady($event)" style="height: 100%;"></ag-grid-angular>
 </div>
