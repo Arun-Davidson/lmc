@@ -1,0 +1,26 @@
+<mat-toolbar color="primary" class="navbar-container">
+    <div class="navbar-left">
+        <img src="../../../assets/company-logo.jpg" alt="Company Logo" class="company-logo">
+    </div>
+    <span class="spacer"></span>
+    <div class="navbar-right">
+        <button mat-icon-button aria-label="User menu" [matMenuTriggerFor]="userMenu">
+            <img src="../../../assets/user-image.png" alt="User" class="user-image">
+        </button>
+        <mat-menu #userMenu="matMenu">
+            <button mat-menu-item> 
+                <mat-icon>person</mat-icon>
+                <span>Profile</span>
+            </button>
+            <button mat-menu-item>
+                <mat-icon>settings</mat-icon>
+                <span>Settings</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item (click)="logout()">
+                <mat-icon>logout</mat-icon>
+                <span>Logout</span>
+            </button>
+        </mat-menu>
+    </div>
+</mat-toolbar>

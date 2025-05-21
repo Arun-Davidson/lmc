@@ -1,0 +1,42 @@
+<div class="dashboard-container">
+  <mat-card class="dashboard-card">
+    <mat-card-header>
+      <mat-card-title>Data Dashboard</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <app-search (searchTerm)="onSearchTermChange($event)"></app-search>
+
+      <div class="bound-data-container">
+        <div class="data-column">
+          <div class="data-item">
+            <strong>Total Items:</strong> {{ boundData[0].value || 'N/A' }}
+          </div>
+          <div class="data-item">
+            <strong>Active Status:</strong> {{ boundData[1].status || 'N/A' }}
+          </div>
+        </div>
+        <div class="data-column">
+          <div class="data-item">
+            <strong>Category:</strong> {{ boundData[2].category || 'N/A' }}
+          </div>
+          <div class="data-item">
+            <strong>Description:</strong> {{ boundData[3].description || 'N/A' }}
+          </div>
+        </div>
+      </div>
+
+      <app-tab-section
+        [filteredData]="displayedData"
+        (activeTabGridApi)="onActiveTabGridApiReady($event)"
+      ></app-tab-section>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="accent" (click)="exportAllData()">
+        <mat-icon>download</mat-icon> Export All Data
+      </button>
+      <button mat-raised-button color="accent" (click)="exportCurrentTab()">
+        <mat-icon>download</mat-icon> Export Current Tab
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

@@ -1,0 +1,8 @@
+<mat-tab-group animationDuration="500ms" (selectedTabChange)="onTabChange($event)">
+    <mat-tab label="Tab 1 Data">
+        <app-tab-one [data]="tab1Data" (gridApiReady)="onTab1GridReady($event)"></app-tab-one>
+    </mat-tab>
+    <mat-tab label="Tab 2 Data">
+        <app-tab-two [data]="tab2Data" (gridApiReady)="onTab2GridReady($event)"></app-tab-two>
+    </mat-tab>
+</mat-tab-group>

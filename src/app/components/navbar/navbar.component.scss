@@ -1,0 +1,61 @@
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    height: 64px;
+    background-color: #93D500; // <--- Changed background color
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    .navbar-left {
+        display: flex;
+        align-items: center;
+
+        .company-logo {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .app-title {
+            font-size: 20px;
+            font-weight: 500;
+        }
+    }
+
+    .spacer {
+        flex: 1 1 auto;
+    }
+
+    .navbar-right {
+        .mat-icon-button {
+            height: auto;
+            width: auto;
+            padding: 0;
+            line-height: 1;
+            border-radius: 50%;
+            margin-right: 5px;
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+        }
+
+        .user-image {
+            // height: 38px;
+            width: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            // border: 2px solid transparent;
+            transition: border-color 0.2s ease-in-out;
+
+            .mat-icon-button:hover & {
+                border-color: rgba(255, 255, 255, 0.5);
+            }
+        }
+    }
+}
+
+.mat-menu-panel {
+    min-width: 180px;
+}

@@ -1,0 +1,5 @@
+<div class="grid-container">
+    <ag-grid-angular class="ag-theme-material" [rowData]="data" [columnDefs]="columnDefs"
+        [defaultColDef]="defaultColDef" [suppressCsvExport]="true" [enableRangeSelection]="true"
+        (gridReady)="onGridReady($event)" style="height: 500px;"></ag-grid-angular>
+</div>

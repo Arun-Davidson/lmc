@@ -1,0 +1,58 @@
+// /* You can add global styles to this file, and also import other style files */
+// @import "~@angular/material/theming";
+// @include mat-core();
+
+// // Import AG-Grid styles
+// @import "~ag-grid-community/styles/ag-grid.css";
+// @import "~ag-grid-community/styles/ag-theme-material.css";
+
+// // Define a custom primary and accent color for your application.
+// $my-dashboard-app-primary: mat-palette($mat-indigo);
+// $my-dashboard-app-accent: mat-palette($mat-pink, A200, A100, A400);
+// $my-dashboard-app-warn: mat-palette($mat-red);
+
+// $my-dashboard-app-theme: mat-light-theme((color: (primary: $my-dashboard-app-primary,
+//                 accent: $my-dashboard-app-accent,
+//                 warn: $my-dashboard-app-warn,
+//             )));
+
+// @include angular-material-theme($my-dashboard-app-theme);
+
+// html,
+// body {
+//     height: 100%;
+// }
+
+// body {
+//     margin: 0;
+//     font-family: Roboto, "Helvetica Neue", sans-serif;
+// }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #f0f2f5;
+
+  // IMPORTANT: Prevent horizontal scrolling from overflowing content
+  overflow-x: hidden; // <--- ADD THIS
+}
+
+// Ensure images and other replaced elements scale down within their containers
+img, video, canvas, audio, iframe, embed, object {
+  max-width: 100%;
+  height: auto; // Maintain aspect ratio
+  display: block; // Remove extra space below images
+}
+
+// Adjust box-sizing for easier layout calculations
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+// Ensure the main content area has some padding and can be responsive
+main {
+  padding: 0; /* Already set, but confirm no fixed width */
+  // If your main tag gets a fixed width, it could cause overflow.
+  // Ensure it's fluid or uses max-width.
+}
