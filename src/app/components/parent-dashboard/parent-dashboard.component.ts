@@ -92,7 +92,7 @@ export class ParentDashboardComponent implements OnInit {
     }
 
     // Generate the Excel file
-    XLSX.writeFile(workbook, 'All_Dashboard_Data.xlsx');
+    XLSX.writeFile(workbook, 'All_LMC_Data.xlsx');
   }
 
   exportCurrentTab(): void {

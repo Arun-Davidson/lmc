@@ -23,7 +23,7 @@ export class TabOneComponent {
   private gridApi: GridApi | null = null;
 
   onGridReady(params: GridReadyEvent): void {
-    console.log(this.columnDefs,'columnDefs')
+    console.log(this.data,'columnDefs')
     this.gridApi = params.api;
     this.gridApiReady.emit(this.gridApi);
   }
