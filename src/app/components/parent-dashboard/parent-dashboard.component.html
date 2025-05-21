@@ -1,7 +1,7 @@
 <div class="dashboard-container">
   <mat-card class="dashboard-card">
     <mat-card-header>
-      <mat-card-title>Data Dashboard</mat-card-title>
+      <mat-card-title>LMC Data</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <app-search (searchTerm)="onSearchTermChange($event)"></app-search>
@@ -9,18 +9,18 @@
       <div class="bound-data-container">
         <div class="data-column">
           <div class="data-item">
-            <strong>Total Items:</strong> {{ boundData[0].value || 'N/A' }}
+            <strong>Total Items:</strong> {{ !!boundData&& !!boundData[0] &&  !!boundData[0].value ?  boundData[0].value : 'N/A' }}
           </div>
           <div class="data-item">
-            <strong>Active Status:</strong> {{ boundData[1].status || 'N/A' }}
+            <strong>Active Status:</strong> {{ !!boundData&& !!boundData[1] &&  !!boundData[1].value ?  boundData[1].value : 'N/A' }}
           </div>
         </div>
         <div class="data-column">
           <div class="data-item">
-            <strong>Category:</strong> {{ boundData[2].category || 'N/A' }}
+            <strong>Category:</strong> {{ !!boundData&& !!boundData[2] &&  !!boundData[2].value ?  boundData[2].value : 'N/A' }}
           </div>
           <div class="data-item">
-            <strong>Description:</strong> {{ boundData[3].description || 'N/A' }}
+            <strong>Description:</strong> {{ !!boundData&& !!boundData[3] &&  !!boundData[3].value ?  boundData[3].value : 'N/A' }}
           </div>
         </div>
       </div>
