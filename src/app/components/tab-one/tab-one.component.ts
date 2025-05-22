@@ -2,9 +2,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { GridApi, GridReadyEvent, ColDef } from 'ag-grid-community';
 import { AgGridAngular } from 'ag-grid-angular';
 import { DataItem } from '../../services/data.service';
-import { commonColumnDefs, commonDefaultColDef } from '../../common/ag-grid-configs';
+import { tab1ColumnDefs, tab1DefaultColDef } from '../../common/tab1-column-defs';
 
-// Material Imports for the button
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -13,8 +12,8 @@ import { MatIconModule } from '@angular/material/icon';
   standalone: true,
   imports: [
     AgGridAngular,
-    MatButtonModule, // <--- Add MatButtonModule
-    MatIconModule    // <--- Add MatIconModule
+    MatButtonModule,
+    MatIconModule
   ],
   templateUrl: './tab-one.component.html',
   styleUrls: ['./tab-one.component.scss']
@@ -23,14 +22,14 @@ export class TabOneComponent {
   @Input() data: DataItem[] = [];
   @Output() gridApiReady = new EventEmitter<GridApi>();
 
-  public columnDefs: ColDef[] = commonColumnDefs;
-  public defaultColDef: ColDef = commonDefaultColDef;
+  public columnDefs: ColDef[] = tab1ColumnDefs;
+  public defaultColDef: ColDef = tab1DefaultColDef;
 
   public defaultPageSize: number = 10;
   public pageSizeOptions: number[] = [5, 10, 20, 50];
 
   private gridApi: GridApi | null = null;
-  private newRowIdCounter: number = 1000; // Start counter for new rows
+  private newRowCounter: number = 1; // Counter for unique placeholder IDs
 
   onGridReady(params: GridReadyEvent): void {
     this.gridApi = params.api;
@@ -51,28 +50,26 @@ export class TabOneComponent {
       return;
     }
 
-    // Create a new DataItem with default values
     const newRow: DataItem = {
-      id: this.newRowIdCounter++, // Assign a unique ID
-      name: '',
-      category: '',
+      id: `NEW-${this.newRowCounter++}`, // <--- Assign a unique placeholder ID
+      name: 'New Product',
+      category: 'Electronics',
       value: 0,
-      description: '',
-      status: ''
+      description: 'New product description...',
+      status: 'Pending',
+      isNewRow: true // Still useful for future logic if needed
     };
 
-    // Add the new row to the grid
     this.gridApi.applyTransaction({
       add: [newRow],
-      addIndex: this.gridApi.getDisplayedRowCount() // Add to the end
+      addIndex: this.gridApi.getDisplayedRowCount()
     });
 
-    // Optional: Scroll to the new row and put it in edit mode
     const rowIndex = this.gridApi.getDisplayedRowCount() - 1;
     this.gridApi.ensureIndexVisible(rowIndex, 'bottom');
     this.gridApi.startEditingCell({
       rowIndex: rowIndex,
-      colKey: 'name' // Start editing the 'name' column
+      colKey: 'name' // <--- Start editing the 'name' column
     });
   }
 }

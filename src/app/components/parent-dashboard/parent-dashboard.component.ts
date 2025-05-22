@@ -2,14 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataService, DataItem } from '../../services/data.service';
 import { GridApi } from 'ag-grid-community';
 import { TabSectionComponent } from '../tab-section/tab-section.component';
-import * as XLSX from 'xlsx'; // Import the xlsx library
+import * as XLSX from 'xlsx';
 
-// Angular Material Imports
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
-// Child Component Imports
 import { SearchComponent } from '../search/search.component';
 
 @Component({
@@ -19,6 +18,7 @@ import { SearchComponent } from '../search/search.component';
     MatCardModule,
     MatButtonModule,
     MatIconModule,
+    MatTooltipModule,
     SearchComponent,
     TabSectionComponent
   ],
@@ -28,8 +28,8 @@ import { SearchComponent } from '../search/search.component';
 export class ParentDashboardComponent implements OnInit {
   @ViewChild(TabSectionComponent) tabSection!: TabSectionComponent;
 
-  allData: DataItem[] = [];
-  displayedData: DataItem[] = [];
+  allData: DataItem[] = []; // This will hold the full, unfiltered data from the service
+  displayedData: DataItem[] = []; // This is the data passed to the tab section (after search)
   boundData: DataItem[] = [];
 
   private activeGridApi: GridApi | null = null;
@@ -42,6 +42,10 @@ export class ParentDashboardComponent implements OnInit {
       this.allData = data;
       this.displayedData = data;
       this.updateBoundData(data);
+      // Ensure tabSection gets initial data immediately
+      if (this.tabSection) {
+        this.tabSection.filteredData = data;
+      }
     });
   }
 
@@ -49,11 +53,13 @@ export class ParentDashboardComponent implements OnInit {
     this.dataService.searchData(searchTerm).subscribe(data => {
       this.displayedData = data;
       this.updateBoundData(data);
+      if (this.tabSection) {
+        this.tabSection.filteredData = data; // Update tab section with new filtered data
+      }
     });
   }
 
   private updateBoundData(data: DataItem[]): void {
-    // Only display first 4 items if data exists, otherwise keep boundData empty
     this.boundData = data.length > 0 ? data.slice(0, 4) : [];
   }
 
@@ -62,17 +68,14 @@ export class ParentDashboardComponent implements OnInit {
     this.activeTabName = event.tabName;
   }
 
-  // Modified exportAllData method
   exportAllData(): void {
-    if (this.allData.length === 0) {
-      alert('No data to export.');
+    if (!this.tabSection) {
+      alert('Tab section not initialized. Cannot export data.');
       return;
     }
 
-    // Get data for each tab directly from the tabSection component
-    // Note: This relies on tabSection having up-to-date tab1Data and tab2Data
-    const tab1Data = this.tabSection?.tab1Data || [];
-    const tab2Data = this.tabSection?.tab2Data || [];
+    const tab1Data = this.tabSection.tab1Data; // Get data directly from tabSection
+    const tab2Data = this.tabSection.tab2Data; // Get data directly from tabSection
 
     if (tab1Data.length === 0 && tab2Data.length === 0) {
         alert('No data in any tab to export.');
@@ -83,23 +86,22 @@ export class ParentDashboardComponent implements OnInit {
 
     if (tab1Data.length > 0) {
       const ws1: XLSX.WorkSheet = XLSX.utils.json_to_sheet(tab1Data);
-      XLSX.utils.book_append_sheet(workbook, ws1, 'Tab 1 Data'); // Sheet named 'Tab 1 Data'
+      XLSX.utils.book_append_sheet(workbook, ws1, 'Product Data'); // <--- Changed sheet name
     }
 
     if (tab2Data.length > 0) {
       const ws2: XLSX.WorkSheet = XLSX.utils.json_to_sheet(tab2Data);
-      XLSX.utils.book_append_sheet(workbook, ws2, 'Tab 2 Data'); // Sheet named 'Tab 2 Data'
+      XLSX.utils.book_append_sheet(workbook, ws2, 'Task Data'); // <--- Changed sheet name
     }
 
-    // Generate the Excel file
-    XLSX.writeFile(workbook, 'All_LMC_Data.xlsx');
+    XLSX.writeFile(workbook, 'Dashboard_Combined_Data.xlsx'); // <--- Changed file name
   }
 
   exportCurrentTab(): void {
-    if (this.tabSection) {
+    if (this.tabSection && this.activeTabName) {
       this.tabSection.exportSelectedTabGrid(this.activeTabName as 'tab1' | 'tab2');
     } else {
-      alert('Tab section not initialized or no active tab.');
+      alert('Cannot export: Tab section not initialized or active tab not determined.');
     }
   }
 }

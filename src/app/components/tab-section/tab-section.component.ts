@@ -1,14 +1,14 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges, ViewChild, Output, EventEmitter } from '@angular/core';
-import { DataService, DataItem } from '../../services/data.service';
-import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs'; // Import MatTabsModule
+import { DataItem } from '../../services/data.service';
+import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { GridApi } from 'ag-grid-community';
 import { TabOneComponent } from '../tab-one/tab-one.component';
 import { TabTwoComponent } from '../tab-two/tab-two.component';
 
 @Component({
   selector: 'app-tab-section',
-  standalone: true, // Mark as standalone
-  imports: [MatTabsModule, TabOneComponent, TabTwoComponent], // Import directly
+  standalone: true,
+  imports: [MatTabsModule, TabOneComponent, TabTwoComponent],
   templateUrl: './tab-section.component.html',
   styleUrls: ['./tab-section.component.scss']
 })
@@ -39,8 +39,15 @@ export class TabSectionComponent implements OnInit, OnChanges {
   }
 
   private distributeData(data: DataItem[]): void {
-    this.tab1Data = data.filter((_, index) => index % 2 === 0);
-    this.tab2Data = data.filter((_, index) => index % 2 !== 0);
+    // Distribute data based on the presence of project_code for a clearer distinction
+    this.tab1Data = data.filter(item => item.project_code === undefined);
+    this.tab2Data = data.filter(item => item.project_code !== undefined);
+
+    // If no data for a tab, ensure the array is empty, not undefined
+    this.tab1Data = this.tab1Data || [];
+    this.tab2Data = this.tab2Data || [];
+
+    // When data changes, re-emit the active grid API if available
     this.emitActiveGridApi();
   }
 

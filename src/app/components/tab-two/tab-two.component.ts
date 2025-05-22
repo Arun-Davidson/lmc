@@ -2,9 +2,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { GridApi, GridReadyEvent, ColDef } from 'ag-grid-community';
 import { AgGridAngular } from 'ag-grid-angular';
 import { DataItem } from '../../services/data.service';
-import { commonColumnDefs, commonDefaultColDef } from '../../common/ag-grid-configs';
+import { tab2ColumnDefs, tab2DefaultColDef } from '../../common/tab2-column-defs';
 
-// Material Imports for the button
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -13,8 +12,8 @@ import { MatIconModule } from '@angular/material/icon';
   standalone: true,
   imports: [
     AgGridAngular,
-    MatButtonModule, // <--- Add MatButtonModule
-    MatIconModule    // <--- Add MatIconModule
+    MatButtonModule,
+    MatIconModule
   ],
   templateUrl: './tab-two.component.html',
   styleUrls: ['./tab-two.component.scss']
@@ -23,14 +22,14 @@ export class TabTwoComponent {
   @Input() data: DataItem[] = [];
   @Output() gridApiReady = new EventEmitter<GridApi>();
 
-  public columnDefs: ColDef[] = commonColumnDefs;
-  public defaultColDef: ColDef = commonDefaultColDef;
+  public columnDefs: ColDef[] = tab2ColumnDefs;
+  public defaultColDef: ColDef = tab2DefaultColDef;
 
   public defaultPageSize: number = 10;
   public pageSizeOptions: number[] = [5, 10, 20, 50];
 
   private gridApi: GridApi | null = null;
-  private newRowIdCounter: number = 2000; // Different counter for Tab 2
+  private newRowCounter: number = 1; // Counter for unique placeholder IDs
 
   onGridReady(params: GridReadyEvent): void {
     this.gridApi = params.api;
@@ -52,12 +51,14 @@ export class TabTwoComponent {
     }
 
     const newRow: DataItem = {
-      id: this.newRowIdCounter++,
-      name: '',
-      category: '',
+      id: `TASK-${this.newRowCounter++}`, // <--- Assign a unique placeholder ID
+      name: 'New Task',
+      category: 'Task',
       value: 0,
-      description: '',
-      status: ''
+      description: 'New task details...',
+      status: 'Pending',
+      isNewRow: true,
+      project_code: 'NEW-001'
     };
 
     this.gridApi.applyTransaction({
